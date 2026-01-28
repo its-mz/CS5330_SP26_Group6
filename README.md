@@ -9,7 +9,7 @@ The app displays a live video from the webcam, also the original view and a tran
 
 ## Team members
 
-Mingzhe Ou, Yi-hsuan Lai
+Mingzhe Ou, Yi-hsuan Lai, Jia Song
 
 ## Setup and Use Instructions
 
