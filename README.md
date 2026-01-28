@@ -13,9 +13,9 @@ Mingzhe Ou, Yi-hsuan Lai
 
 ## Setup and Use Instructions
 
-• Python
-• OpenCV
-• Git
+- • Python
+- • OpenCV
+- • Git
 
 ### 1. Environment Setup
 
