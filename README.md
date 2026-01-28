@@ -48,3 +48,17 @@ python webcamapp.py
 - **p** — Toggle perspective warp
 - **s** — Save screenshot
 - **q** — Quit application
+
+## Implemented Warping Techniques
+
+- Flip: horizontal and vertical mirroring of the feed
+- Rotation: ±5° rotation with the center of the feed
+- Scaling: ±5% zoom in or zoom out the feed
+- Translation: move the feed using the arrow keys
+- Perspective Transform: viewpoint change with a four-point warp
+
+### Features
+
+- Real-time FPS display
+- Dual views display
+- Responsive controls
