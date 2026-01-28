@@ -183,7 +183,11 @@ def main():
         elif key == ord('h'):
             app.print_help()
         elif key == ord('s'):
-            filename = f"screenshot_{int(time.time())}.png"
+            output_dir = "output"
+            output_path = os.path.join(os.path.dirname(__file__), output_dir)
+            if not os.path.exists(output_path):
+                os.makedirs(output_path)
+            filename = os.path.join(output_path,f"screenshot_{int(time.time())}.png")
             cv2.imwrite(filename, combined)
             print(f"Screenshot saved: {filename}")
         elif key == 82 or key == 0:
