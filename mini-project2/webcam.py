@@ -187,7 +187,14 @@ def main():
             output_path = os.path.join(os.path.dirname(__file__), output_dir)
             if not os.path.exists(output_path):
                 os.makedirs(output_path)
-            filename = os.path.join(output_path,f"screenshot_{int(time.time())}.png")
+                
+            #filename = os.path.join(output_path,f"screenshot_{int(time.time())}.png")
+            
+            flip_str = "horizontal" if app.flip_mode == 1 else "vertical" if app.flip_mode == 0 else "none"
+            perspective_str = "perspective" if app.perspective_on else "no_perspective"
+            filename = f"screenshot_{flip_str}_tx{app.tx}_ty{app.ty}_angle{app.angle}_scale{app.scale:.2f}_{perspective_str}_{int(time.time())}.png"
+            filename = os.path.join(output_path, filename)
+    
             cv2.imwrite(filename, combined)
             print(f"Screenshot saved: {filename}")
         elif key == 82 or key == 0:
