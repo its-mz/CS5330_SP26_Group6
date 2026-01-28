@@ -7,6 +7,46 @@
 This project is building a real-time image processing app by using **Python and OpenCV**
 The app displays a live video from the webcam, also the original view and a transformed view. It allows the users to apply different image warping and transformation effects by using the keyborad shortcuts.
 
-## Team members:
+## Team members
 
 Mingzhe Ou, Yi-hsuan Lai
+
+## Setup and Use Instructions
+
+• Python
+• OpenCV
+• Git
+
+### 1. Environment Setup
+
+Create and activate a Python virtual environment
+
+```bash
+python -m venv webcamapp
+source webcamapp/bin/activate   # For macOS / Linux
+webcamapp\Scripts\activate      # For Windows
+# Install dependencies
+pip install opencv-python numpy
+```
+
+### 2. Run the app
+
+```bash
+python webcamapp.py
+```
+
+## Keyboard Controls
+
+0 ———— Reset
+1 ———— Flip horizontally
+2 ———— Flip vertically
+r ———— Rotate left
+t ———— Rotate right
+
+**\+** ———— Scale up
+
+**\-** ———— Scale down
+Arrow Keys ———— Translate iamge (up/down/left/right)
+p ———— Toggle perspective warp
+s ———— Save screenshot
+q ———— Quit application
