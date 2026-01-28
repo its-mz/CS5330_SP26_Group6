@@ -34,7 +34,7 @@ pip install opencv-python numpy
 ### 2. Run the app
 
 ```bash
-python webcamapp.py
+python webcam.py
 ```
 
 ## Keyboard Controls
