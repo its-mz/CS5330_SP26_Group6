@@ -37,16 +37,14 @@ python webcamapp.py
 
 ## Keyboard Controls
 
-0 ———— Reset
-1 ———— Flip horizontally
-2 ———— Flip vertically
-r ———— Rotate left
-t ———— Rotate right
-
-**\+** ———— Scale up
-
-**\-** ———— Scale down
-Arrow Keys ———— Translate iamge (up/down/left/right)
-p ———— Toggle perspective warp
-s ———— Save screenshot
-q ———— Quit application
+- **0** — Reset to original view
+- **1** — Flip horizontally
+- **2** — Flip vertically
+- **r** — Rotate left by 5°
+- **t** — Rotate right by 5°
+- **+** — Scale up by 5%
+- **-** — Scale down by 5%
+- **Arrow Keys** — Translate image (up/down/left/right)
+- **p** — Toggle perspective warp
+- **s** — Save screenshot
+- **q** — Quit application
