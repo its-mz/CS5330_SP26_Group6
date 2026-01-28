@@ -42,8 +42,8 @@ python webcamapp.py
 - **2** — Flip vertically
 - **r** — Rotate left by 5°
 - **t** — Rotate right by 5°
-- **+** — Scale up by 5%
-- **-** — Scale down by 5%
+- **+** — Scale up (+5%)
+- **-** — Scale down (-5%)
 - **Arrow Keys** — Translate image (up/down/left/right)
 - **p** — Toggle perspective warp
 - **s** — Save screenshot
