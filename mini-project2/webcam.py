@@ -9,22 +9,21 @@ class WebCamApp:
         self.angle = 0
         self.scale = 1.0 
         self.perspective_on = False
-        self.flip_mode = -2
+        self.flip_status = -2
         self.prev_time = time.time()
         self.fps = 0
         
     def translation(self, frame):
         rows, cols = frame.shape[:2]
-        M = np.float32([[1, 0, self.tx], 
-                        [0, 1, self.ty]])
-        return cv2.warpAffine(frame, M, (cols, rows))
+        translate = np.float32([[1, 0, self.tx], [0, 1, self.ty]])
+        return cv2.warpAffine(frame, translate, (cols, rows))
     
     def rotation(self, frame):
         rows, cols = frame.shape[:2]
         center = (cols // 2, rows // 2)
 
-        M = cv2.getRotationMatrix2D(center, self.angle, 1.0)
-        return cv2.warpAffine(frame, M, (cols, rows))
+        rotate = cv2.getRotationMatrix2D(center, self.angle, 1.0)
+        return cv2.warpAffine(frame, rotate, (cols, rows))
     
     def scaling(self, frame):
         rows, cols = frame.shape[:2]
@@ -49,14 +48,14 @@ class WebCamApp:
         dst_y2 = dst_y1 + (src_y2 - src_y1)
         
         if src_x2 > src_x1 and src_y2 > src_y1:
-            canvas[dst_y1:dst_y2, dst_x1:dst_x2] = resized[src_y1:src_y2, src_x1:src_x2]
+            canvas[dst_y1 : dst_y2, dst_x1 : dst_x2] = resized[src_y1 : src_y2, src_x1 : src_x2]
         
         return canvas
     
     def perspective(self, frame):
         rows, cols = frame.shape[:2]
         
-        src_pts = np.float32([
+        src_points = np.float32([
             [0, 0],
             [cols, 0],
             [0, rows],
@@ -70,20 +69,20 @@ class WebCamApp:
             [cols * 0.95, rows * 0.9]
         ])
         
-        M = cv2.getPerspectiveTransform(src_pts, dst_pts)
-        return cv2.warpPerspective(frame, M, (cols, rows))
+        perspective = cv2.getPerspectiveTransform(src_points, dst_pts)
+        return cv2.warpPerspective(frame, perspective, (cols, rows))
     
     def flip(self, frame):
-        if self.flip_mode == 1:
+        if self.flip_status == 1:
             return cv2.flip(frame, 1)
-        elif self.flip_mode == 0:
+        elif self.flip_status == 0:
             return cv2.flip(frame, 0)
         return frame
     
     def process_frame(self, frame):
         result = frame.copy()
         
-        if self.flip_mode != -2:
+        if self.flip_status != -2:
             result = self.flip(result)
         
         if self.tx != 0 or self.ty != 0:
@@ -107,16 +106,21 @@ class WebCamApp:
         return self.fps
     
     def get_status_text(self):
-        flip_str = "H" if self.flip_mode == 1 else ("V" if self.flip_mode == 0 else "None")
-        return (f"FLIP = {flip_str} | tx={self.tx}, ty={self.ty} | "
-                f"angle = {self.angle} | scale = {self.scale:.2f} | persp = {self.perspective_on}")
+        flip_str = "Horizontal" 
+        if self.flip_status == 1: 
+            flip_str = "Horizontal"
+        elif self.flip_status == 0: 
+            flip_str = "Vertical"
+        else:
+            flip_str = "None"
+        return (f"Flip = {flip_str} | "f"Angle = {self.angle} | Scale = {self.scale:.2f} | Perspective = {self.perspective_on}")
     
     def reset(self):
         self.tx, self.ty = 0, 0
         self.angle = 0
         self.scale = 1.0
         self.perspective_on = False
-        self.flip_mode = -2
+        self.flip_status = -2
 
 def main():
     cap = cv2.VideoCapture(0)
@@ -140,13 +144,9 @@ def main():
         
         fps = app.calculate_fps()
         
-        cv2.putText(frame, f"Original | FPS: {fps:.1f}", (10, 30),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
-        
-        cv2.putText(transformed, app.get_status_text(), (10, 30),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
-        cv2.putText(transformed, f"FPS: {fps:.1f}", (10, 60),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+        cv2.putText(frame, f"FPS: {fps:.1f}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+        cv2.putText(transformed, app.get_status_text(), (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+        cv2.putText(transformed, f"FPS: {fps:.1f}", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
         
         combined = cv2.hconcat([frame, transformed])
         
@@ -158,45 +158,28 @@ def main():
             break
         elif key == ord('0'):
             app.reset()
-            print("Reset all transformations")
         elif key == ord('1'):
-            app.flip_mode = 1 if app.flip_mode != 1 else -2
-            print(f"Horizontal flip: {'ON' if app.flip_mode == 1 else 'OFF'}")
+            app.flip_status = 1 if app.flip_status != 1 else -2
         elif key == ord('2'):
-            app.flip_mode = 0 if app.flip_mode != 0 else -2
-            print(f"Vertical flip: {'ON' if app.flip_mode == 0 else 'OFF'}")
+            app.flip_status = 0 if app.flip_status != 0 else -2
         elif key == ord('r'):
             app.angle += 5
-            print(f"Rotation: {app.angle}°")
         elif key == ord('t'):
             app.angle -= 5
-            print(f"Rotation: {app.angle}°")
         elif key == ord('+') or key == ord('='):
             app.scale = min(3.0, app.scale + 0.05)
-            print(f"Scale: {app.scale:.2f}")
         elif key == ord('-'):
             app.scale = max(0.1, app.scale - 0.05)
-            print(f"Scale: {app.scale:.2f}")
         elif key == ord('p'):
             app.perspective_on = not app.perspective_on
-            print(f"Perspective: {'ON' if app.perspective_on else 'OFF'}")
-        elif key == ord('h'):
-            app.print_help()
         elif key == ord('s'):
             output_dir = "output"
             output_path = os.path.join(os.path.dirname(__file__), output_dir)
-            if not os.path.exists(output_path):
-                os.makedirs(output_path)
-                
-            #filename = os.path.join(output_path,f"screenshot_{int(time.time())}.png")
-            
-            flip_str = "horizontal" if app.flip_mode == 1 else "vertical" if app.flip_mode == 0 else "none"
+            flip_str = "horizontal" if app.flip_status == 1 else "vertical" if app.flip_status == 0 else "none"
             perspective_str = "perspective" if app.perspective_on else "no_perspective"
-            filename = f"screenshot_{flip_str}_tx{app.tx}_ty{app.ty}_angle{app.angle}_scale{app.scale:.2f}_{perspective_str}_{int(time.time())}.png"
+            filename = f"screenshot_{flip_str}_angle{app.angle}_scale{app.scale:.2f}_{perspective_str}.png"
             filename = os.path.join(output_path, filename)
-    
             cv2.imwrite(filename, combined)
-            print(f"Screenshot saved: {filename}")
         elif key == 82 or key == 0:
             app.ty -= 10
         elif key == 84 or key == 1:
