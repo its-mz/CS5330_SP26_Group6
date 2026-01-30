@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-This project is building a real-time image processing app by using **Python and OpenCV**
+This project is building a real-time image processing app by using **Python and OpenCV**.
 The app displays a live video from the webcam, also the original view and a transformed view. It allows the users to apply different image warping and transformation effects by using the keyborad shortcuts.
 
 ## Team members
@@ -15,7 +15,7 @@ The app displays a live video from the webcam, also the original view and a tran
 
 ## Setup and Use Instructions
 
-- Python
+- Python 3.8 or later
 - OpenCV
 - Git
 
@@ -24,6 +24,7 @@ The app displays a live video from the webcam, also the original view and a tran
 Create and activate a Python virtual environment
 
 ```bash
+# Create virtual environment and activate
 python -m venv webcamapp
 source webcamapp/bin/activate   # For macOS / Linux
 webcamapp\Scripts\activate      # For Windows
