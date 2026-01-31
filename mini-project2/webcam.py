@@ -5,7 +5,7 @@ import os
 
 class WebCamApp:
     def __init__(self):
-        self.tx, self.ty = 0, 0
+        self.x, self.y = 0, 0
         self.angle = 0
         self.scale = 1.0 
         self.perspective_on = False
@@ -15,7 +15,7 @@ class WebCamApp:
         
     def translation(self, frame):
         rows, cols = frame.shape[:2]
-        translate = np.float32([[1, 0, self.tx], [0, 1, self.ty]])
+        translate = np.float32([[1, 0, self.x], [0, 1, self.y]])
         return cv2.warpAffine(frame, translate, (cols, rows))
     
     def rotation(self, frame):
@@ -85,7 +85,7 @@ class WebCamApp:
         if self.flip_status != -2:
             result = self.flip(result)
         
-        if self.tx != 0 or self.ty != 0:
+        if self.x != 0 or self.y != 0:
             result = self.translation(result)
         
         if self.angle != 0:
@@ -116,7 +116,7 @@ class WebCamApp:
         return (f"Flip = {flip_str} | "f"Angle = {self.angle} | Scale = {self.scale:.2f} | Perspective = {self.perspective_on}")
     
     def reset(self):
-        self.tx, self.ty = 0, 0
+        self.x, self.y = 0, 0
         self.angle = 0
         self.scale = 1.0
         self.perspective_on = False
@@ -181,13 +181,13 @@ def main():
             filename = os.path.join(output_path, filename)
             cv2.imwrite(filename, combined)
         elif key == 82 or key == 0:
-            app.ty -= 10
+            app.y -= 10
         elif key == 84 or key == 1:
-            app.ty += 10
+            app.y += 10
         elif key == 81 or key == 2:
-            app.tx -= 10
+            app.x -= 10
         elif key == 83 or key == 3:
-            app.tx += 10
+            app.x += 10
     
     cap.release()
     cv2.destroyAllWindows()
