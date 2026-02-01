@@ -15,7 +15,7 @@ The app displays a live video from the webcam, also the original view and a tran
 
 ## Setup and Use Instructions
 
-- Python 3.8 or later
+- Python 3.13 or later
 - OpenCV
 - Git
 
