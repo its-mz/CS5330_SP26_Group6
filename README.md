@@ -49,7 +49,7 @@ python webcam.py
 - **-** — Scale down (-5%)
 - **Arrow Keys** — Translate image (up/down/left/right)
 - **p** — Toggle perspective warp
-- **w,a,d,x** —— Perspective change
+- **w,a,d,x** — Perspective change
 - **s** — Save screenshot
 - **q** — Quit application
 
