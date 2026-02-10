@@ -14,8 +14,8 @@ def initialize_video_capture(mode = '2-camera'):
             return None, None, None, mode
         return cap_l, cap_r, None, mode
     
-    else:  # 1-camera mode
-        static_img = cv2.imread('data/logo1.jpg')
+    else: 
+        static_img = cv2.imread('data/vita1.jpg')
         
         if static_img is None:
             print("Error: logo1.jpg missing for simulation.")
@@ -25,7 +25,7 @@ def initialize_video_capture(mode = '2-camera'):
         return cap_l, None, static_img, mode
     
 def initialize_sift_detector():
-    sift = cv2.SIFT_create()
+    sift = cv2.SIFT_create(nfeatures=500)
     return sift
 
 def initialize_flann_matcher():
@@ -35,7 +35,6 @@ def initialize_flann_matcher():
     return flann
 
 def frame_processor(cap_l, cap_r, static_img, simulation_mode, sift, flann):
-    prev_time = 0
     while True:
         start_time = time.time()
         
@@ -80,8 +79,6 @@ def frame_processor(cap_l, cap_r, static_img, simulation_mode, sift, flann):
             flags = cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
 
         cv2.imshow('Matched Features', matched_img)
-        
-        fps = 1 / (time.time() - start_time)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
@@ -90,9 +87,6 @@ if __name__ == "__main__":
     mode = '1-camera'
 
     cap_l, cap_r, static_img, mode = initialize_video_capture(mode)
-
-    # cap_l, static_img = initialize_video_capture(mode)
-    # cap_r = static_img
 
     sift = initialize_sift_detector()
     flann = initialize_flann_matcher()
