@@ -20,7 +20,7 @@ def run_inference(fixed_path, moving_path, out_dir):
     print("Loading volumes...")
     fixed = preprocess(fixed_path)
     moving = preprocess(moving_path)
-    print(f"  Volume shape: {tuple(fixed.shape[2:])}")
+    print(f"Volume shape: {tuple(fixed.shape[2:])}")
 
     print("Building model...")
     model = build_voxelmorph_model()
@@ -40,9 +40,9 @@ def run_inference(fixed_path, moving_path, out_dir):
     save_nifti(registered,   fixed_path, f"{out_dir}/registered.nii.gz")
     save_nifti(dvf_np[...,0], fixed_path, f"{out_dir}/dvf_x.nii.gz")
 
-    print(f"  registered shape : {registered.shape}")
-    print(f"  registered range : {registered.min():.3f} ~ {registered.max():.3f}")
-    print(f"  DVF shape        : {dvf_np.shape}")
+    print(f"registered shape: {registered.shape}")
+    print(f"registered range: {registered.min():.3f} ~ {registered.max():.3f}")
+    print(f"DVF shape: {dvf_np.shape}")
     print(f"Saved to {out_dir}/")
     print("Done ✓")
     return registered, dvf_np
